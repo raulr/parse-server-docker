@@ -6,7 +6,7 @@
   "license": "MIT",
   "dependencies": {
     "express": "~4.2.x",
-    "parse-server": "2.0.3"
+    "parse-server": "2.0.4"
   },
   "scripts": {
     "start": "node index.js"
