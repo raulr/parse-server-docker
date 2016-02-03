@@ -26,6 +26,14 @@ var app = express();
 var mountPath = process.env.PARSE_MOUNT || '/parse';
 app.use(mountPath, api);
 
-app.listen(1337, function() {
+var server = app.listen(1337, function() {
     console.log('parse-server running on port 1337.');
+});
+
+// Gracefully shutdown on docker stop
+process.on('SIGTERM', function () {
+    console.log('SIGTERM received. Shutting down.');
+    server.close(function () {
+        process.exit(0);
+    });
 });

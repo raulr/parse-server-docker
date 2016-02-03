@@ -8,9 +8,6 @@
     "express": "~4.2.x",
     "parse-server": "2.0.6"
   },
-  "scripts": {
-    "start": "node index.js"
-  },
   "engines": {
     "node": ">=4.1"
   }

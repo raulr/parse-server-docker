@@ -12,4 +12,4 @@ COPY index.js /app/index.js
 
 EXPOSE 1337
 
-CMD ["npm", "start"]
+CMD ["node", "index.js"]
