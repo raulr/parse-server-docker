@@ -10,7 +10,8 @@ var args = {
     javascriptKey: process.env.PARSE_JAVASCRIPT_KEY,
     restAPIKey: process.env.PARSE_REST_API_KEY,
     dotNetKey: process.env.PARSE_DOTNET_KEY,
-    clientKey: process.env.PARSE_CLIENT_KEY
+    clientKey: process.env.PARSE_CLIENT_KEY,
+    serverURL: 'http://localhost:1337' + ( process.env.PARSE_MOUNT || '/parse' )
 }
 
 try {
