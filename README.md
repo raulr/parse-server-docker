@@ -13,32 +13,39 @@ Parse Server depends on MongoDB, so first you need to launch a mongo instance:
 
 Then you can launch the Parse Server container:
 
-    $ docker run --link some-mongo:mongo -e PARSE_APP_ID=myAppId -e PARSE_MASTER_KEY=mySecretMasterKey -p 1337:1337 -d raulr/parse-server
+    $ docker run --link some-mongo:mongo -e PARSE_SERVER_APPLICATION_ID=myAppId -e PARSE_SERVER_MASTER_KEY=mySecretMasterKey -p 1337:1337 -d raulr/parse-server
 
 #### Cloud Code
 
-You can mount a directory containing [Cloud Code](https://parse.com/docs/cloudcode/guide) into `/app/cloud` to use it on your app:
+You can mount a directory containing [Cloud Code](https://parse.com/docs/cloudcode/guide) into `/cloud` to use it on your app:
 
-    $ docker run --link some-mongo:mongo -v <cloud code dir>:/app/cloud -e PARSE_APP_ID=myAppId -e PARSE_MASTER_KEY=mySecretMasterKey -p 1337:1337 -d raulr/parse-server
+    $ docker run --link some-mongo:mongo -v <cloud code dir>:/cloud -e PARSE_SERVER_APPLICATION_ID=myAppId -e PARSE_SERVER_MASTER_KEY=mySecretMasterKey -p 1337:1337 -d raulr/parse-server
 
 Alternatively, you can create an image with your Cloud Code using a custom `Dockerfile`:
 
 ```dockerfile
 FROM raulr/parse-server
-COPY ./cloud-code-dir /app/cloud
+COPY ./cloud-code-dir /cloud
 ```
 
 #### Environment Variables
 
-* `PARSE_DATABASE_URI:`: The connection string for your database (defaults to `mongodb://mongo:27017/parse`).
-* `PARSE_APP_ID:`: The application id to host with this server instance (required).
-* `PARSE_MASTER_KEY:`: The master key to use for overriding ACL security (required).
-* `PARSE_FILE_KEY:`: For migrated apps, this is necessary to provide access to files already hosted on Parse (optional).
-* `PARSE_JAVASCRIPT_KEY:`: The JavaScript key for your app (optional).
-* `PARSE_REST_API_KEY:`: The REST API key for your app (optional).
-* `PARSE_DOTNET_KEY:`: The .NET key for your app (optional).
-* `PARSE_CLIENT_KEY:`: The client key for your app (optional).
-* `PARSE_MOUNT:`: Path to serve the Parse API (defaults to `/parse`).
+* `PARSE_SERVER_APPLICATION_ID`: The application id to host with this server instance (required).
+* `PARSE_SERVER_MASTER_KEY`: The master key to use for overriding ACL security (required).
+* `PARSE_SERVER_MOUNT_PATH`: Mount path for the server (defaults to `/parse`).
+* `PARSE_SERVER_URL`: URL to your parse server with `http://` or `https://` (defaults to `http://localhost:1337/parse`).
+* `PARSE_SERVER_DATABASE_URI`: The full URI to your mongodb database (defaults to `mongodb://mongo:27017/parse`).
+* `PARSE_SERVER_FILE_KEY`: Key for your files. For migrated apps, this is necessary to provide access to files already hosted on Parse (optional).
+* `PARSE_SERVER_JAVASCRIPT_KEY`: Key for the Javascript SDK (optional).
+* `PARSE_SERVER_REST_API_KEY`: Key for REST calls (optional).
+* `PARSE_SERVER_DOT_NET_KEY`: Key for Unity and .Net SDK (optional).
+* `PARSE_SERVER_CLIENT_KEY`: Key for iOS, MacOS, tvOS clients (optional).
+* `PARSE_SERVER_FACEBOOK_APP_IDS`: Comma separated list for your facebook app Ids (optional).
+* `PARSE_SERVER_ENABLE_ANON_USERS`: Enable (or disable) anon (defaults to `true`).
+* `PARSE_SERVER_ALLOW_CLIENT_CLASS_CREATION`: Enable (or disable) client class creation (defaults to `true`).
+* `PARSE_SERVER_MAX_UPLOAD_SIZE`: Max file size for uploads (defaults to `20mb`).
+* `PARSE_SERVER_PUSH`: Configuration for [push](https://github.com/ParsePlatform/parse-server/wiki/Push), as stringified JSON (optional).
+* `PARSE_SERVER_OAUTH_PROVIDERS`: Configuration for your [oAuth providers](https://github.com/ParsePlatform/parse-server/wiki/Parse-Server-Guide#oauth), as stringified JSON (optional).
 
 ### ... via [`docker-compose`](https://github.com/docker/compose)
 
@@ -50,8 +57,8 @@ parse:
   ports:
     - "1337:1337"
   environment:
-      PARSE_APP_ID: myAppId
-      PARSE_MASTER_KEY: mySecretMasterKey
+      PARSE_SERVER_APPLICATION_ID: myAppId
+      PARSE_SERVER_MASTER_KEY: mySecretMasterKey
   links:
     - mongo
 mongo:

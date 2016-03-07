@@ -1,15 +1,13 @@
 FROM node:argon
 MAINTAINER Raul Rodriguez <raul@raulr.net>
 
-RUN mkdir /app
-WORKDIR /app
+ENV PARSE_SERVER_VERSION 2.1.4
 
-COPY package.json /app/package.json
+RUN npm install -g parse-server@${PARSE_SERVER_VERSION}
 
-RUN npm install
-
-COPY index.js /app/index.js
+COPY docker-entrypoint.sh /entrypoint.sh
 
 EXPOSE 1337
 
-CMD ["node", "index.js"]
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["parse-server"]
