@@ -1,7 +1,7 @@
 FROM node:argon
 MAINTAINER Raul Rodriguez <raul@raulr.net>
 
-ENV PARSE_SERVER_VERSION 2.1.6
+ENV PARSE_SERVER_VERSION 2.2.0
 
 RUN npm install -g parse-server@${PARSE_SERVER_VERSION}
 
